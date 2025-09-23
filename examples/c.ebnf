@@ -1,0 +1,67 @@
+program     = { function } ;
+
+function    = type , identifier , "(" , [ param_list ] , ")" , block ;
+
+param_list  = parameter , { "," , parameter } ;
+parameter   = type , identifier ;
+
+type        = "int" | "float" | "void" ;
+
+block       = "{" , { declaration | statement } , "}" ;
+
+declaration = type , identifier , [ "=" , expression ] , ";" ;
+
+statement   = block
+            | "return" , [ expression ] , ";"
+            | "if" , "(" , expression , ")" , statement , [ "else" , statement ]
+            | "while" , "(" , expression , ")" , statement
+            | expression , ";"
+            | ";" ;  (* 空语句 *)
+
+(* ---- 表达式优先级：从低到高 ---- *)
+
+expression  = assignment ;
+
+assignment  = logical_or , [ "=" , assignment ] ;           (* 右结合 a = b = c *)
+
+logical_or  = logical_and , { "||" , logical_and } ;        (* 左结合 *)
+logical_and = equality   , { "&&" , equality    } ;         (* 左结合 *)
+
+equality    = relational , { ( "==" | "!=" ) , relational } ;
+relational  = additive   , { ( "<" | ">" | "<=" | ">=" ) , additive } ;
+
+additive    = multiplicative , { ( "+" | "-" ) , multiplicative } ;
+multiplicative
+            = unary , { ( "*" | "/" | "%" ) , unary } ;
+
+unary       = [ ( "+" | "-" | "!" ) ] , postfix ;           (* 一元正负/逻辑非；可嵌套 *)
+
+postfix     = primary , { "(" , [ argument_list ] , ")" } ; (* 函数调用后缀，可链式调用 *)
+argument_list
+            = expression , { "," , expression } ;
+
+primary     = identifier
+            | integer
+            | float_literal
+            | "(" , expression , ")" ;
+
+(* ---- 词法（令牌）约定：实现时作为词法器规则，不必在 EBNF 中严格形式化 ---- *)
+
+(* identifier     = /* 字母或下划线开头，后接字母/数字/下划线的序列；保留字不可作为标识符 */ ;
+
+   integer        = /* 十进制非负整数字面量，如 0 | 123 | 456 */ ;
+
+   float_literal  = /* 十进制浮点，如：
+                        0.0 | .5 | 3. | 1.25 | 1e10 | 2.5e-3 | 4E+2
+                      规则示例（任选其一实现）：
+                        DIGIT+ "." DIGIT* ( EXP )?
+                      | "." DIGIT+ ( EXP )?
+                      | DIGIT+ "." DIGIT+ ( EXP )?
+                      | DIGIT+ EXP
+                      其中 EXP = [eE] [+-]? DIGIT+  */ ;
+*)
+
+(* 关键字集合：
+   int, float, void, return, if, else, while
+   以及运算符/分隔符：= || && == != < > <= >= + - * / % ! ( ) { } , ;
+*)
