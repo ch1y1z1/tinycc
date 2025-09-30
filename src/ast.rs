@@ -1,41 +1,49 @@
-struct Ast {
-    program: Vec<Function>,
+#[derive(Clone)]
+pub struct Ast {
+    pub program: Vec<Function>,
 }
 
-struct Function {
-    name: String,
-    params: Vec<Parameter>,
-    body: Block,
-    return_type: Type,
+#[derive(Clone)]
+pub struct Function {
+    pub name: String,
+    pub params: Vec<Parameter>,
+    pub body: Block,
+    pub ret_type: Type,
 }
 
-struct Parameter {
-    name: String,
-    param_type: Type,
+#[derive(Clone)]
+pub struct Parameter {
+    pub name: String,
+    pub param_type: Type,
 }
 
-enum Type {
+#[derive(Clone)]
+pub enum Type {
     Int,
     Float,
     Void,
 }
 
-struct Block {
-    items: Vec<BlockItem>,
+#[derive(Clone)]
+pub struct Block {
+    pub items: Vec<BlockItem>,
 }
 
-enum BlockItem {
+#[derive(Clone)]
+pub enum BlockItem {
     Decl(Declaration),
     Stmt(Statement),
 }
 
-struct Declaration {
-    var_type: Type,
-    name: String,
-    init: Option<Expression>,
+#[derive(Clone)]
+pub struct Declaration {
+    pub var_type: Type,
+    pub name: String,
+    pub init: Option<Expression>,
 }
 
-enum Statement {
+#[derive(Clone)]
+pub enum Statement {
     Block(Block),
     Expr(Expression),
     Ret(Option<Expression>),
@@ -51,7 +59,8 @@ enum Statement {
     Empty,
 }
 
-enum Expression {
+#[derive(Clone)]
+pub enum Expression {
     Binary {
         left: Box<Expression>,
         operator: BinaryOperator,
@@ -73,11 +82,13 @@ enum Expression {
     },
 }
 
-enum LValue {
+#[derive(Clone)]
+pub enum LValue {
     Var(String),
 }
 
-enum BinaryOperator {
+#[derive(Clone)]
+pub enum BinaryOperator {
     Add,
     Subtract,
     Multiply,
@@ -93,13 +104,15 @@ enum BinaryOperator {
     Or,
 }
 
-enum UnaryOperator {
+#[derive(Clone)]
+pub enum UnaryOperator {
     Plus,
     Negate,
     Not,
 }
 
-enum Literal {
+#[derive(Clone)]
+pub enum Literal {
     Int(i32),
     Float(f32),
 }
