@@ -87,7 +87,7 @@ pub enum LValue {
     Var(String),
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub enum BinaryOperator {
     Add,
     Subtract,
@@ -104,7 +104,7 @@ pub enum BinaryOperator {
     Or,
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub enum UnaryOperator {
     Plus,
     Negate,
