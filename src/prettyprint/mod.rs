@@ -79,11 +79,11 @@ impl PpWithCtx<PpCtx> for BlockItem {
         match self {
             BlockItem::Decl(decl) => {
                 writeln_indent!(ctx, f, "Declaration: {} {}", decl.var_type, decl.name);
-                // if let Some(init) = &decl.init {
-                //     write_indent!(ctx.sub_ctx(), f, "Init: ");
-                //     init.pp(f, ctx.sub_ctx());
-                //     writeln!(f).unwrap();
-                // }
+                if let Some(init) = &decl.init {
+                    write_indent!(ctx.sub_ctx(), f, "Init: ");
+                    init.pp(f, ctx.sub_ctx());
+                    writeln!(f).unwrap();
+                }
             }
             BlockItem::Stmt(stmt) => {
                 writeln_indent!(ctx, f, "Statement:");
