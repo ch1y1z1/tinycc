@@ -6,4 +6,7 @@ edition = "2024"
 [dependencies]
 chumsky = "0.11.1"
 eros = "0.2.0"
+inkwell = { git = "https://github.com/TheDan64/inkwell.git", version = "0.6.0", features = [
+    "llvm20-1",
+] }
 logos = "0.15.1"
